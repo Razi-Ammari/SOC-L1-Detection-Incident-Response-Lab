@@ -1,0 +1,66 @@
+INCIDENT REPORT - SOC L1 ESCALATION TO SOC L2
+
+Incident ID: INC-2026-001
+Alert Name: Suspicious PowerShell Execution and Multiple Failed Logins
+Severity: High
+Status: Escalated to SOC L2
+Analyst: SOC Analyst L1
+Environment: BIAT SOC Home Lab
+
+Date / Time Detected:
+2026-08-02
+
+Affected Host:
+WIN10-ENDPOINT
+
+Source IP:
+192.168.100.30
+
+Targeted User:
+testuser
+
+Execution User:
+WIN10-ENDPOINT\socanalyst
+
+Detected Event IDs:
+Windows Security Event ID 4625 - Failed Logon
+Sysmon Event ID 1 - Process Creation
+Sysmon Event ID 3 - Network Connection
+
+Summary:
+During the investigation, multiple failed authentication attempts were detected against the user testuser on WIN10-ENDPOINT. The source IP address was identified as 192.168.100.30, corresponding to the Kali Linux attacker machine in the lab environment.
+
+In addition to the authentication failures, suspicious PowerShell activity was detected through Sysmon logs. The investigation showed execution of Document_Update.exe and powershell.exe with suspicious command-line indicators such as -EncodedCommand, -ExecutionPolicy Bypass, and DownloadString.
+
+Evidence Collected:
+1. Splunk failed logon detection using Windows Security Event ID 4625.
+2. Source IP investigation showing 192.168.100.30 as the origin of failed attempts.
+3. Sysmon Event ID 1 showing suspicious process creation.
+4. Process tree correlation showing cmd.exe and Document_Update.exe launching powershell.exe.
+5. Final L1 investigation summary showing multiple suspicious alert categories.
+
+Indicators of Compromise:
+Source IP: 192.168.100.30
+Targeted User: testuser
+Host: WIN10-ENDPOINT
+Suspicious Processes:
+- C:\Users\socanalyst\Downloads\Document_Update.exe
+- C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Suspicious Command Indicators:
+- EncodedCommand
+- ExecutionPolicy Bypass
+- DownloadString
+
+MITRE ATT&CK Mapping:
+T1110 - Brute Force
+T1059.001 - PowerShell
+T1105 - Ingress Tool Transfer
+
+L1 Analyst Notes:
+The alert was validated in Splunk using Windows Security logs and Sysmon logs. The investigation confirmed multiple suspicious indicators, including failed authentication attempts, encoded PowerShell execution, suspicious attachment execution, and process tree correlation. Based on the evidence collected, this incident should be escalated to SOC L2 for deeper analysis and containment review.
+
+Final Decision:
+Escalate to SOC L2
+
+Reason for Escalation:
+Multiple suspicious indicators were observed, including brute-force authentication activity and suspicious PowerShell execution. Further investigation is required by SOC L2.

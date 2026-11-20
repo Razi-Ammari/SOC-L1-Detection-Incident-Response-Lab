@@ -1,0 +1,13 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Never commit VM files or logs
+*.vdi
+*.vmdk
+*.vbox
+*.vbox-prev
+*.ova
+*.log
+*.sav
